@@ -42,10 +42,10 @@ def getData():
 	_contextResponses = NGSIData();
 
 	# Cosmos access data.
-	username 	= "netzahdzc";
-	service 	= "3ollintest"
-	servicePath = "/smartphone"
-	token 		= "fqYMQr2B3t0IRSXtcJBiaf56p6bUcJ";
+	username 	= "";
+	service 	= ""
+	servicePath = "/"
+	token 		= "";
 
 	# Header settled.
 	response = Response(response = _contextResponses.post(username, service, servicePath, request.args, token));
