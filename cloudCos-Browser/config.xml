@@ -5,7 +5,7 @@
         <email>netzahdzc@cicese.mx</email>
         <image>images/catalogue.png</image>
         <description>This browser is a complementary part of an extension named cloudCos-Bridge that aims to connect Widgets with Cosmos instances in order to display historical data over mashups</description>
-        <longdescription>DESCRIPTION.md</longdescription>
+        <longdescription>README.md</longdescription>
         <authors>Netzahualcóyotl Hernández-Cruz &lt;netzahdzc@cicese.mx&gt;</authors>
         <homepage>https://github.com/netzahdzc/cloudCos</homepage>
         <license>Apache License 2.0</license>
