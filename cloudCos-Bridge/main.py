@@ -43,8 +43,8 @@ def getData():
 
 	# Cosmos access data.
 	username 	= "";
-	service 	= ""
-	servicePath = "/"
+	service 	= "";
+	servicePath = "/";
 	token 		= "";
 
 	# Header settled.
