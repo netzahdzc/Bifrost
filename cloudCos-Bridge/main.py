@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-# Flash dependencies
+# Flask dependencies
 from flask import Flask
 from flask import render_template
 from flask import make_response 
@@ -21,6 +21,9 @@ from flask import request, Response
 
 # Internal dependencies
 from lib.NGSIData import NGSIData
+
+# Format dependenties
+import pprint
 
 # Start listening through port 5000
 app = Flask(__name__);
@@ -38,14 +41,15 @@ For more reference, please visit NGSI v1 official documentation: http://telefoni
 """
 @app.route("/v1/queryContext", methods = ['POST'])
 def getData():
+
 	# Data handler.
 	_contextResponses = NGSIData();
 
 	# Cosmos access data.
-	username 	= "";
-	service 	= "";
-	servicePath = "/";
-	token 		= "";
+	username 	= str(request.headers["Referer"]).split("/")[3];
+	service 	= str(request.headers["Fiware-Service"]);
+	servicePath = str(request.headers["Fiware-ServicePath"]);
+	token 		= str(request.headers["X-Auth-Token"]);
 
 	# Header settled.
 	response = Response(response = _contextResponses.post(username, service, servicePath, request.args, token));

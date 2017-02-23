@@ -1,6 +1,4 @@
 /*
- * Copyright (c) 2015 CoNWeT Lab., Universidad Politécnica de Madrid
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -115,7 +113,7 @@
 
                 if (this.ngsi_connection !== null) {
                     entityIdList = [];
-                    var id_pattern = MashupPlatform.prefs.get('ngsi_id_filter');
+                    var id_pattern = '';//MashupPlatform.prefs.get('ngsi_id_filter');
                     if (id_pattern === '') {
                         id_pattern = '.*';
                     }
@@ -149,10 +147,6 @@
                         details: true,
                         limit: options.pageSize,
                         offset: (page - 1) * options.pageSize,
-                        username: "netzahdzc",
-                        service: "3ollintest",
-                        servicePath: "/smartphone",
-                        token: "fqYMQr2B3t0IRSXtcJBiaf56p6bUcJ",
                         onSuccess: onNGSIQuerySuccess.bind(null, onSuccess, page),
                         onFailure: onError
                     });
