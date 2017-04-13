@@ -20,9 +20,9 @@ import json
 # Flask dependencies to handle Response's header
 from flask import request, Response
 
-# Constant declaration
-PARTICIPANT_MODULE 	= "refUser";
-PHYSICALTEST_MODULE = "refEvent";
+# Constant declaration. Answer the question: What module is the data coming from?
+PATIENTS_MODULE 	= "refUser";
+TEST_MODULE 		= "refEvent";
 VARIALES_MODULE 	= "";
 
 """ NGSIData
@@ -33,27 +33,30 @@ class NGSIData:
 	def __init__(self):
 		print("NGSIData object created");
 
-	def post(self, _username, _service, _servicePath, _q, _args, _token):
+	def post(self, _username, _service, _servicePath, _q, _t, _args, _token):
 		_data = Retrieve();
-		return _data.fromHDSFtoJson(_username, _service, _servicePath, _q, _args, _token);
+		return _data.fromHDSFtoJson(_username, _service, _servicePath, _q, _t, _args, _token);
 	
 class Retrieve:
 	def __init__(self):
 		print("Retrieve object created");
 
-	def fromHDSFtoJson(self, _username, _service, _servicePath, _q, _args, _token):
+	def fromHDSFtoJson(self, _username, _service, _servicePath, _q, _t, _args, _token):
 		# Query data to filter outcome
 		q = json.loads(_q)["q"];
+		
+		# Auxiliar variable
+		extension = "";
 
 		# To retrieve: PhysicalTest data
-		if (q[0] == PARTICIPANT_MODULE):
+		if (q[0] == PATIENTS_MODULE):
 			extension = "http://207.249.127.162:1234/users";
 		
-		if (q[0] == PHYSICALTEST_MODULE):
+		if (q[0] == TEST_MODULE):
 			extension = "./physicalTest";
 
 		if (q[0] == VARIALES_MODULE):
-			# Pending to define
+			extension = "";
 		
 		# Parameter extraction
 		limit 	= request.args["limit"];
@@ -109,8 +112,10 @@ class Retrieve:
 				# Get each single line to handle them as json objects.
 				jsonResult 	= json.loads(element);
 			
-				if jsonResult["attrValue"] == ("%s/%s" % (extension, q[1])):
+				if ( jsonResult["attrValue"] == ("%s/%s" % (extension, q[1])) ) and ( jsonResult["entityType"] == _t ):
 					flag = True;
+				else:
+					flag = False;
 
 				# Collection of basic/general data to fill entities.
 				entityId 	= jsonResult["entityId"];
@@ -133,19 +138,19 @@ class Retrieve:
 			# Dynamic building process, ends here.
 			# ===========================================
 
-			if flag:
-				# Status response from contextElement.
-				statusCode = {};
-				statusCode["code"] 			= "200";
-				statusCode["reasonPhrase"] 	= "OK";
+				if flag:
+					# Status response from contextElement.
+					statusCode = {};
+					statusCode["code"] 			= "200";
+					statusCode["reasonPhrase"] 	= "OK";
 
-				# Context Elements.
-				contextElementWrap = {};
-				contextElementWrap["contextElement"]= contextElement;
-				contextElementWrap["statusCode"] 	= statusCode;
-				
-				# Getting togheter context elements
-				contextResponses.append(contextElementWrap);
+					# Context Elements.
+					contextElementWrap = {};
+					contextElementWrap["contextElement"]= contextElement;
+					contextElementWrap["statusCode"] 	= statusCode;
+					
+					# Getting togheter context elements
+					contextResponses.append(contextElementWrap);
 
 		# Status response from all call.
 		errorCode = {};

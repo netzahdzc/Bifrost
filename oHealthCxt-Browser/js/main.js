@@ -18,6 +18,13 @@
 
     "use strict";
     
+    /* Constants declaration 
+    *  Constant declaration. Answer the question: What module I want to share the data?
+    */
+    var PATIENTS_MODULE     = "Participants";
+    var TEST_MODULE         = "PhysicalTest";
+    var VARIALES_MODULE     = "VariableOfInterest";
+
     /* Setup*/
     var health_module = MashupPlatform.prefs.get('health_module');
 
@@ -30,20 +37,21 @@
         data = JSON.parse(data);
 
         // Participants module. Action mechanim is focused on retrieve physical test data.
-        if(health_module == "Participants"){
+        if(health_module == PATIENTS_MODULE){
+            qValue = data.id;
+            attribute = "";
+        }
+
+        // Physical test module. Action mechanim is focused on retrieve variable of interest data.
+        if(health_module == TEST_MODULE){
             qValue = data.id;
             attribute = "refUser";
         }
 
-        // Physical test module. Action mechanim is focused on retrieve variable of interest data.
-        if(health_module == "PhysicalTest"){
+        // Variable of interest module
+        if(health_module == VARIALES_MODULE){
             qValue = data.id;
             attribute = "refEvent";
-        }
-
-        // Variable of interest module
-        if(health_module == "VariableOfInterest"){
-            // Pending to define
         }
 
         if(qValue !== ""){
@@ -101,6 +109,8 @@
         if (path !== '' && path !== '/') {
             options.request_headers['FIWARE-ServicePath'] = path;
         }
+        var type = MashupPlatform.prefs.get('ngsi_entities').trim();
+        options.request_headers['FIWARE-Type'] = type;
 
         // Retrieve the object from storage
         var retrievedObject = localStorage.getItem('qObject');

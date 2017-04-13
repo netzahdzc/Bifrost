@@ -49,10 +49,11 @@ def getData():
 	service 	= str(request.headers["Fiware-Service"]);
 	servicePath = str(request.headers["Fiware-ServicePath"]);
 	q			= str(request.headers["Fiware-Queue"]);
+	t			= str(request.headers["Fiware-Type"]);
 	token 		= str(request.headers["X-Auth-Token"]);
 
 	# Header settled.
-	response = Response(response = _contextResponses.post(username, service, servicePath, q, request.args, token));
+	response = Response(response = _contextResponses.post(username, service, servicePath, q, t, request.args, token));
 	response.headers["Accept"] 				= "application/json";
 	response.headers["Fiware-Service"] 		= service;
 	response.headers["Fiware-ServicePath"] 	= servicePath;

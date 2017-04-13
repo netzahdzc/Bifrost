@@ -21,7 +21,7 @@
 
     <preferences>
         <preference name="ngsi_server" type="text" label="IP" description="URL of the Remote/Cosmos instance to use for retrieving entity information" default="http://orion.lab.fiware.org:1026/"/>
-        <preference name="health_module" type="boolean" label="Module" description="Define one of the available modules for this browser (e.g., Participants, PhysicalTest, VariableOfInterest)" default=""/>
+        <preference name="health_module" type="text" label="Module" description="Define one of the available modules for this browser (e.g., Participants, PhysicalTest, VariableOfInterest)" default=""/>
         <preference name="use_user_fiware_token" type="boolean" label="Use FIWARE credentials" description="Use the FIWARE credentials of the user logged into WireCloud. Take into account this option cannot be enabled if you want to use this widget in a public workspace as anonoymous users doesn't have a valid FIWARE auth token" default="true"/>
         <preference name="ngsi_tenant" type="text" label="NGSI service" description="Tenant/service to use when connecting to the context broker. Must be a string of alphanumeric characters (lowercase) and the &quot;_&quot; symbol. Maximum length is 50 characters. If empty, the default tenant will be used" default=""/>
         <preference name="ngsi_service_path" type="text" label="NGSI scope" description="Scope/path to use when connecting to the context broker. Must be a string of alphanumeric characters (lowercase) and the &quot;_&quot; symbol separated by &quot;/&quot; slashes. Maximum length is 50 characters. If empty, the default service path will be used: /" default="/"/>
