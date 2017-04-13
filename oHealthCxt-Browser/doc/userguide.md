@@ -1,18 +1,18 @@
 Introduction
 ============
 
-The cloudCos-Browser widget allows you to browser Cosmos data. This is done using an extension called
-cloudCos-Bridge which is implemented over python language.
+The oHealthCxt-Browser widget allows you to browser Cosmos data. This is done using an extension called
+Bifrost which is implemented over python language.
 
 > Latest version of this widget is always provided in 
-> [GitHub](https://github.com/netzahdzc/cloudCos).
+> [GitHub](https://github.com/netzahdzc/Bifrost).
 
 Settings
 --------
 
 ### Settings
 
-- **NGSI server URL:** URL of the cloudCos-Bridge to use for retrieving
+- **NGSI server URL:** URL of the Bifrost to use for retrieving
   entity information.
 - **Use the FIWARE credentials of the dashboard owner**: Use the FIWARE
   credentials of the owner of the workspace. This preference takes preference

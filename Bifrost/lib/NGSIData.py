@@ -20,6 +20,11 @@ import json
 # Flask dependencies to handle Response's header
 from flask import request, Response
 
+# Constant declaration
+PARTICIPANT_MODULE 	= "refUser";
+PHYSICALTEST_MODULE = "refEvent";
+VARIALES_MODULE 	= "";
+
 """ NGSIData
 This class enable a simple mechanism to retrieve HDFS files by CURL calls. Directories are gathered and opened in order to 
 build a NGSI v1 structure.
@@ -28,15 +33,28 @@ class NGSIData:
 	def __init__(self):
 		print("NGSIData object created");
 
-	def post(self, _username, _service, _servicePath, _args, _token):
+	def post(self, _username, _service, _servicePath, _q, _args, _token):
 		_data = Retrieve();
-		return _data.fromHDSFtoJson(_username, _service, _servicePath, _args, _token);
+		return _data.fromHDSFtoJson(_username, _service, _servicePath, _q, _args, _token);
 	
 class Retrieve:
 	def __init__(self):
 		print("Retrieve object created");
 
-	def fromHDSFtoJson(self, _username, _service, _servicePath, _args, _token):
+	def fromHDSFtoJson(self, _username, _service, _servicePath, _q, _args, _token):
+		# Query data to filter outcome
+		q = json.loads(_q)["q"];
+
+		# To retrieve: PhysicalTest data
+		if (q[0] == PARTICIPANT_MODULE):
+			extension = "http://207.249.127.162:1234/users";
+		
+		if (q[0] == PHYSICALTEST_MODULE):
+			extension = "./physicalTest";
+
+		if (q[0] == VARIALES_MODULE):
+			# Pending to define
+		
 		# Parameter extraction
 		limit 	= request.args["limit"];
 		details = request.args["details"];
@@ -71,6 +89,7 @@ class Retrieve:
 
 		# Root structure.
 		contextResponses = [];
+		flag = False;
 
 		for key in resultList["FileStatuses"]["FileStatus"]:
 			# CURL call to Cosmos.
@@ -90,6 +109,9 @@ class Retrieve:
 				# Get each single line to handle them as json objects.
 				jsonResult 	= json.loads(element);
 			
+				if jsonResult["attrValue"] == ("%s/%s" % (extension, q[1])):
+					flag = True;
+
 				# Collection of basic/general data to fill entities.
 				entityId 	= jsonResult["entityId"];
 				entityType 	= jsonResult["entityType"];
@@ -111,18 +133,19 @@ class Retrieve:
 			# Dynamic building process, ends here.
 			# ===========================================
 
-			# Status response from contextElement.
-			statusCode = {};
-			statusCode["code"] 			= "200";
-			statusCode["reasonPhrase"] 	= "OK";
+			if flag:
+				# Status response from contextElement.
+				statusCode = {};
+				statusCode["code"] 			= "200";
+				statusCode["reasonPhrase"] 	= "OK";
 
-			# Contest Elements.
-			contextElementWrap = {};
-			contextElementWrap["contextElement"]= contextElement;
-			contextElementWrap["statusCode"] 	= statusCode;
-			
-			# Getting togheter context elements
-			contextResponses.append(contextElementWrap);
+				# Context Elements.
+				contextElementWrap = {};
+				contextElementWrap["contextElement"]= contextElement;
+				contextElementWrap["statusCode"] 	= statusCode;
+				
+				# Getting togheter context elements
+				contextResponses.append(contextElementWrap);
 
 		# Status response from all call.
 		errorCode = {};

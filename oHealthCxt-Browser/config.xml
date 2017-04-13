@@ -1,26 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="CICESE" name="cloudCos-Browser" version="1.0">
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="CICESE" name="oHealthCxt-Browser" version="1.0">
     <details>
-        <title>cloudCos-Browser</title>
+        <title>oHealthCxt-Browser</title>
         <email>netzahdzc@cicese.mx</email>
         <image>images/catalogue.png</image>
-        <description>This browser is a complementary part of an extension named cloudCos-Bridge that aims to connect Widgets with Cosmos instances in order to display historical data over mashups</description>
+        <description>This browser is a complementary part of an extension named Bifrost that aims to connect Widgets with Cosmos instances in order to display historical data over mashups</description>
         <longdescription>README.md</longdescription>
         <authors>Netzahualcóyotl Hernández-Cruz &lt;netzahdzc@cicese.mx&gt;</authors>
-        <homepage>https://github.com/netzahdzc/cloudCos</homepage>
+        <homepage>https://github.com/netzahdzc/Bifrost</homepage>
         <license>Apache License 2.0</license>
         <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
         <doc>doc/userguide.md</doc>
         <changelog>doc/changelog.md</changelog>
-        <issuetracker>https://github.com/netzahdzc/cloudCos/issues</issuetracker>
+        <issuetracker>https://github.com/netzahdzc/Bifrost/issues</issuetracker>
     </details>
-
+ 
     <requirements>
         <feature name="NGSI"/>
     </requirements>
 
     <preferences>
-        <preference name="ngsi_server" type="text" label="Cosmos IP" description="URL of the Cosmos instance to use for retrieving entity information" default="http://orion.lab.fiware.org:1026/"/>
+        <preference name="ngsi_server" type="text" label="IP" description="URL of the Remote/Cosmos instance to use for retrieving entity information" default="http://orion.lab.fiware.org:1026/"/>
+        <preference name="health_module" type="boolean" label="Module" description="Define one of the available modules for this browser (e.g., Participants, PhysicalTest, VariableOfInterest)" default=""/>
         <preference name="use_user_fiware_token" type="boolean" label="Use FIWARE credentials" description="Use the FIWARE credentials of the user logged into WireCloud. Take into account this option cannot be enabled if you want to use this widget in a public workspace as anonoymous users doesn't have a valid FIWARE auth token" default="true"/>
         <preference name="ngsi_tenant" type="text" label="NGSI service" description="Tenant/service to use when connecting to the context broker. Must be a string of alphanumeric characters (lowercase) and the &quot;_&quot; symbol. Maximum length is 50 characters. If empty, the default tenant will be used" default=""/>
         <preference name="ngsi_service_path" type="text" label="NGSI scope" description="Scope/path to use when connecting to the context broker. Must be a string of alphanumeric characters (lowercase) and the &quot;_&quot; symbol separated by &quot;/&quot; slashes. Maximum length is 50 characters. If empty, the default service path will be used: /" default="/"/>
@@ -33,6 +34,7 @@
     </preferences>
 
     <wiring>
+        <inputendpoint name="textinput" label="Filter" type="text"/>
         <outputendpoint name="selection" label="Selection" type="text"/>
     </wiring>
 

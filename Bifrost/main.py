@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # Flask dependencies
 from flask import Flask
 from flask import render_template
@@ -22,7 +21,7 @@ from flask import request, Response
 # Internal dependencies
 from lib.NGSIData import NGSIData
 
-# Format dependenties
+# Format dependencies
 import pprint
 
 # Start listening through port 5000
@@ -45,14 +44,15 @@ def getData():
 	# Data handler.
 	_contextResponses = NGSIData();
 
-	# Cosmos access data.
+	# Remote/Cosmos access data.
 	username 	= str(request.headers["Referer"]).split("/")[3];
 	service 	= str(request.headers["Fiware-Service"]);
 	servicePath = str(request.headers["Fiware-ServicePath"]);
+	q			= str(request.headers["Fiware-Queue"]);
 	token 		= str(request.headers["X-Auth-Token"]);
 
 	# Header settled.
-	response = Response(response = _contextResponses.post(username, service, servicePath, request.args, token));
+	response = Response(response = _contextResponses.post(username, service, servicePath, q, request.args, token));
 	response.headers["Accept"] 				= "application/json";
 	response.headers["Fiware-Service"] 		= service;
 	response.headers["Fiware-ServicePath"] 	= servicePath;

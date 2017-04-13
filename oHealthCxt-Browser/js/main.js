@@ -17,9 +17,42 @@
 (function () {
 
     "use strict";
+    
+    /* Setup*/
+    var health_module = MashupPlatform.prefs.get('health_module');
+
+    /* Inputdata */
+    var qValue = "";
+    var qObject = JSON.stringify({ 'q': ["", ""] });
+
+    MashupPlatform.wiring.registerCallback('textinput', function (data) {
+        var attribute = "";
+        data = JSON.parse(data);
+
+        // Participants module. Action mechanim is focused on retrieve physical test data.
+        if(health_module == "Participants"){
+            qValue = data.id;
+            attribute = "refUser";
+        }
+
+        // Physical test module. Action mechanim is focused on retrieve variable of interest data.
+        if(health_module == "PhysicalTest"){
+            qValue = data.id;
+            attribute = "refEvent";
+        }
+
+        // Variable of interest module
+        if(health_module == "VariableOfInterest"){
+            // Pending to define
+        }
+
+        if(qValue !== ""){
+            localStorage.setItem('qObject',  JSON.stringify({ 'q': [attribute, qValue] }));
+            location.reload();
+        }
+    });
 
     var DataViewer = function DataViewer() {
-
         /* Context */
         MashupPlatform.widget.context.registerCallback(function (newValues) {
             if (this.layout && ("heightInPixels" in newValues || "widthInPixels" in newValues)) {
@@ -55,7 +88,6 @@
     };
 
     DataViewer.prototype.updateNGSIConnection = function updateNGSIConnection() {
-
         this.ngsi_server = MashupPlatform.prefs.get('ngsi_server');
         var options = {
             request_headers: {},
@@ -70,6 +102,14 @@
             options.request_headers['FIWARE-ServicePath'] = path;
         }
 
+        // Retrieve the object from storage
+        var retrievedObject = localStorage.getItem('qObject');
+        if(retrievedObject == null) localStorage.setItem('qObject', qObject);
+        // Send value for the bridge to process respective queue
+        options.request_headers['FIWARE-Queue'] = retrievedObject;
+        // This need to be done to avoid unwanted specific retrieved from memory when loading a new session
+        localStorage.setItem('qObject', qObject);
+
         this.ngsi_connection = new NGSI.Connection(this.ngsi_server, options);
     };
 
@@ -82,11 +122,12 @@
     };
 
     var onNGSIQuerySuccess = function onNGSIQuerySuccess(next, page, data, details) {
-        var search_info, i, j, attributes, attribute, entry;
+        var search_info, i, j, attributes, attribute, entry, counter = 0;
 
         for (i = 0; i < data.length; i++) {
             entry = data[i];
             attributes = {};
+
             for (j = 0; j < entry.attributes.length; j++) {
                 attribute = entry.attributes[j];
                 attributes[attribute.name] = attribute.contextValue;
@@ -99,7 +140,7 @@
         search_info = {
             'resources': data,
             'current_page': page,
-            'total_count': details.count
+            'total_count': (details.count-counter)
         };
 
         next(data, search_info);
@@ -207,7 +248,7 @@
                             );
                         }.bind(this));
                         content.appendChild(button);
-                    }*/
+                    }*/ 
 
                     if (MashupPlatform.prefs.get('allow_use')) {
                         button = new StyledElements.StyledButton({'class': 'btn-primary', 'iconClass': 'icon-play', 'title': 'Use'});
@@ -232,5 +273,4 @@
 
     var data_viewer = new DataViewer();
     window.addEventListener("DOMContentLoaded", data_viewer.init.bind(data_viewer), false);
-
 })();
