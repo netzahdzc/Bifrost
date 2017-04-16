@@ -21,9 +21,9 @@
     /* Constants declaration 
     *  Constant declaration. Answer the question: What module I want to share the data?
     */
-    var PATIENTS_MODULE     = "Participants";
-    var TEST_MODULE         = "PhysicalTest";
-    var VARIALES_MODULE     = "VariableOfInterest";
+    var PARTICIPANTS_MODULE = "Participants";
+    var TESTS_MODULE        = "PhysicalTest";
+    var PARAMETERS_MODULE   = "ParametersOfInterest";
 
     /* Setup*/
     var health_module = MashupPlatform.prefs.get('health_module');
@@ -37,19 +37,19 @@
         data = JSON.parse(data);
 
         // Participants module. Action mechanim is focused on retrieve physical test data.
-        if(health_module == PATIENTS_MODULE){
+        if(health_module == PARTICIPANTS_MODULE){
             qValue = data.id;
             attribute = "";
         }
 
         // Physical test module. Action mechanim is focused on retrieve variable of interest data.
-        if(health_module == TEST_MODULE){
+        if(health_module == TESTS_MODULE){
             qValue = data.id;
             attribute = "refUser";
         }
 
         // Variable of interest module
-        if(health_module == VARIALES_MODULE){
+        if(health_module == PARAMETERS_MODULE){
             qValue = data.id;
             attribute = "refEvent";
         }

@@ -21,9 +21,9 @@ import json
 from flask import request, Response
 
 # Constant declaration. Answer the question: What module is the data coming from?
-PATIENTS_MODULE 	= "refUser";
-TEST_MODULE 		= "refEvent";
-VARIALES_MODULE 	= "";
+PARTICIPANTS_MODULE = "refUser";
+TESTS_MODULE 		= "refEvent";
+PARAMETERS_MODULE 	= "";
 
 """ NGSIData
 This class enable a simple mechanism to retrieve HDFS files by CURL calls. Directories are gathered and opened in order to 
@@ -49,13 +49,13 @@ class Retrieve:
 		extension = "";
 
 		# To retrieve: PhysicalTest data
-		if (q[0] == PATIENTS_MODULE):
+		if (q[0] == PARTICIPANTS_MODULE):
 			extension = "http://207.249.127.162:1234/users";
 		
-		if (q[0] == TEST_MODULE):
+		if (q[0] == TESTS_MODULE):
 			extension = "./physicalTest";
 
-		if (q[0] == VARIALES_MODULE):
+		if (q[0] == PARAMETERS_MODULE):
 			extension = "";
 		
 		# Parameter extraction
