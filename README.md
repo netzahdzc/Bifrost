@@ -3,21 +3,21 @@ Bifrost
 
 # PREFACE
 
-This project is a temporal solution to the lack of connectivity between Wirecloud GE and Cosmos for those folks willing to retrieve historical data on widgets.
+This project is a temporary solution to the lack of connectivity between Wirecloud GE and Cosmos for those folks willing to retrieve historical data on widgets.
 
-It consist on two modules: (1) a server-side (i.e., Bifrost) which aims is to retrieve data base on WebHDFS calls, and (2) a client-side (i.e., Bifrost) which goal is to display HDFS data in NGSI format.
+It consists of two modules: (1) a server-side (i.e., Bifrost) which aims is to retrieve database on WebHDFS calls, and (2) a client-side (i.e., Bifrost) which goal is to display HDFS data in NGSI format.
 
 
 Pre-requisites
 --------------
 
-This draft contribution is a temporal solucion that might be deprecated, depending on the progress of the original project. 
+This draft contribution is a temporary solution that might be deprecated, depending on the progress of the original project. 
 
 
 Support
 -------
 
-Patches are encouraged, and may be submitted by forking this project and
+Patches are encouraged and may be submitted by forking this project and
 submitting a pull request through GitHub. Please see [Support.md](Support.md) for more details.
 
 License
